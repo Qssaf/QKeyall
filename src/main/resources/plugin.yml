@@ -1,0 +1,10 @@
+name: QKeyall
+description: $description
+prefix: QKeyall
+version: '${version}'
+
+main: dev.parrotstudios.qkeyall.QKeyall
+api-version: '1.21.11'
+load: POSTWORLD
+
+authors: [ Qssaf ]
