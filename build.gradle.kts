@@ -8,10 +8,12 @@ repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.nightexpressdev.com/releases")
+    maven("https://repo.extendedclip.com/releases/")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    compileOnly("me.clip:placeholderapi:2.12.2")
     implementation("su.nightexpress.excellentcrates:ExcellentCrates:6.6.1")
 }
 

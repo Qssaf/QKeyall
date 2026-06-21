@@ -6,6 +6,8 @@ import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import lombok.Getter;
 import su.nightexpress.excellentcrates.key.CrateKey;
 
+import java.util.concurrent.TimeUnit;
+
 public class KeyallTimer {
 
     @Getter
@@ -13,7 +15,8 @@ public class KeyallTimer {
 
     private static final MainConfig config = MainConfig.getInstance();
     private static QKeyall plugin;
-    private static long timer;
+    @Getter
+    private static long timerTime;
     private static CrateKey crateKey;
 
     @Getter
@@ -24,33 +27,33 @@ public class KeyallTimer {
         OFFLINE
     }
 
-    public static void StartUp(){
+    public static void StartUp() {
         plugin = QKeyall.getInstance();
-        if(task != null){
+        if(task != null) {
             task.cancel();
             timerStatus = TimerStatus.OFFLINE;
         }
-        if(config.getCrateKey() == null){
+        if(config.getCrateKey() == null) {
             plugin.getLogger().warning("CrateKey is not set in the config. KeyallTimer will not start.");
             return;
         }
         crateKey = config.getCrateKey();
-        timer = config.getKeyallTime();
+        timerTime = config.getKeyallTime();
         timerStatus = TimerStatus.RUNNING;
-        task = plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, (scheduledTask) -> {
-            if(timer<=0){
-                timer = config.getKeyallTime();
-                plugin.getServer().getOnlinePlayers().forEach(player -> {
-                    QKeyall.getKeyManager().giveKey(player, crateKey, 1);
-                });
+        task = plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, (scheduledTask) -> {
+            if(timerTime <=0) {
+                timerTime = config.getKeyallTime();
+                plugin.getServer().getOnlinePlayers().forEach(player
+                        -> player.getScheduler().run(plugin, (playerTask)
+                        -> QKeyall.getKeyManager().giveKey(player, crateKey, 1), null));
                 return;
             }
-            timer--;
-        }, 0L, 20L);
+            timerTime--;
+        }, 0L, 1L, TimeUnit.SECONDS);
     }
 
-    public static void stop(){
-        if(task != null){
+    public static void stop() {
+        if(task != null) {
             task.cancel();
         }
     }

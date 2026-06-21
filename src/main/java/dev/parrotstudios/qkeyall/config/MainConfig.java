@@ -44,7 +44,6 @@ public class MainConfig {
              return;
         }
         crateKey = QKeyall.getKeyManager().getKeyById(crateKeyName);
-
     }
 
 }

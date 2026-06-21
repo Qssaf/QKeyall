@@ -1,10 +1,25 @@
 name: QKeyall
 description: $description
 prefix: QKeyall
-version: '${version}'
-
+version: '1.0.0'
 main: dev.parrotstudios.qkeyall.QKeyall
 api-version: '1.21.11'
 load: POSTWORLD
+softdepend:
+  - PlaceholderAPI
+depend:
+  - ExcellentCrates
+author: Qssaf
 
-authors: [ Qssaf ]
+commands:
+    qkeyall:
+        description: Main command for QKeyall plugin.
+        permission: qkeyall.command
+        aliases: [keyall, qka]
+permissions:
+    qkeyall.command:
+        description: Allows the use of the /qkeyall command.
+        default: op
+    qkeyall.blacklist:
+        description: Blacklists a player from getting a key from the keyall
+        default: op
