@@ -27,7 +27,7 @@ public final class QKeyall extends JavaPlugin {
        KeyallTimer.stop();
     }
 
-    public void Reload() {
+    public void reload() {
         MainConfig.getInstance().load();
         KeyallTimer.StartUp();
     }

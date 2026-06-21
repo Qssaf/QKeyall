@@ -1,5 +1,6 @@
 package dev.parrotstudios.qkeyall.config;
 
+import dev.parrotstudios.qkeyall.KeyallPreset;
 import dev.parrotstudios.qkeyall.QKeyall;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,6 +10,11 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import su.nightexpress.excellentcrates.key.CrateKey;
 import su.nightexpress.excellentcrates.key.KeyManager;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 @Getter
@@ -28,6 +34,7 @@ public class MainConfig {
 
     private String crateKeyName;
     private CrateKey crateKey;
+    private final List<KeyallPreset> keyallPresets = new ArrayList<>();
 
 
     public static MainConfig getInstance() {
