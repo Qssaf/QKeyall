@@ -24,23 +24,23 @@ public class MainConfig {
     @Getter(AccessLevel.NONE)
     private static final MainConfig mainConfig = new MainConfig();
 
-    private MainConfig(){}
+    private MainConfig() {}
 
     private String crateKeyName;
     private CrateKey crateKey;
 
 
-    public static MainConfig getInstance(){
+    public static MainConfig getInstance() {
         return mainConfig;
     }
 
-    public void load(){
+    public void load() {
         plugin = QKeyall.getInstance();
         plugin.saveDefaultConfig();
         config = plugin.getConfig();
         KeyallTime = config.getLong("KeyallTime",120L);
         crateKeyName = config.getString("CrateKeyName");
-        if(crateKeyName == null ||  crateKeyName.isEmpty()){
+        if(crateKeyName == null ||  crateKeyName.isEmpty()) {
              return;
         }
         crateKey = QKeyall.getKeyManager().getKeyById(crateKeyName);
