@@ -1,20 +1,16 @@
 package dev.parrotstudios.qkeyall.config;
 
-import dev.parrotstudios.qkeyall.KeyallPreset;
+import dev.parrotstudios.qkeyall.preset.KeyallPreset;
 import dev.parrotstudios.qkeyall.QKeyall;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
-import su.nightexpress.excellentcrates.key.CrateKey;
-import su.nightexpress.excellentcrates.key.KeyManager;
+
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 
 @Getter
@@ -32,8 +28,7 @@ public class MainConfig {
 
     private MainConfig() {}
 
-    private String crateKeyName;
-    private CrateKey crateKey;
+    private List<String> timedKeyallCommands;
     private final List<KeyallPreset> keyallPresets = new ArrayList<>();
 
 
@@ -46,11 +41,13 @@ public class MainConfig {
         plugin.saveDefaultConfig();
         config = plugin.getConfig();
         KeyallTime = config.getLong("KeyallTime",120L);
-        crateKeyName = config.getString("CrateKeyName");
-        if(crateKeyName == null ||  crateKeyName.isEmpty()) {
-             return;
+        timedKeyallCommands = config.getStringList("TimedKeyallCommands");
+        ConfigurationSection section =  config.getConfigurationSection("KeyallPresets");
+        if(section == null) return;
+        for(String presetName : section.getKeys(false)) {
+            keyallPresets.add(KeyallPreset.build(presetName, config.getStringList("KeyallPresets." + presetName)));
         }
-        crateKey = QKeyall.getKeyManager().getKeyById(crateKeyName);
+
     }
 
 }

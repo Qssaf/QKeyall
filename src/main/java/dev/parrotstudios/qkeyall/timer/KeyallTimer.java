@@ -4,9 +4,8 @@ import dev.parrotstudios.qkeyall.QKeyall;
 import dev.parrotstudios.qkeyall.config.MainConfig;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import lombok.Getter;
-import su.nightexpress.excellentcrates.key.CrateKey;
 
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 public class KeyallTimer {
 
@@ -17,12 +16,13 @@ public class KeyallTimer {
     private static QKeyall plugin;
     @Getter
     private static long timerTime;
-    private static CrateKey crateKey;
+
+    private static List<String> timedCommands;
 
     @Getter
     private static TimerStatus timerStatus = TimerStatus.OFFLINE;
 
-    public static enum TimerStatus {
+    public enum TimerStatus {
         RUNNING,
         OFFLINE
     }
@@ -33,23 +33,23 @@ public class KeyallTimer {
             task.cancel();
             timerStatus = TimerStatus.OFFLINE;
         }
-        if(config.getCrateKey() == null) {
-            plugin.getLogger().warning("CrateKey is not set in the config. KeyallTimer will not start.");
+        if(config.getTimedKeyallCommands().isEmpty()) {
+            plugin.getLogger().warning("TimedKeyallCommands is not set in the config. KeyallTimer will not start.");
             return;
         }
-        crateKey = config.getCrateKey();
+        timedCommands = config.getTimedKeyallCommands();
         timerTime = config.getKeyallTime();
         timerStatus = TimerStatus.RUNNING;
-        task = plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, (scheduledTask) -> {
+
+        task = plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, (scheduledTask) -> {
             if(timerTime <=0) {
                 timerTime = config.getKeyallTime();
-                plugin.getServer().getOnlinePlayers().forEach(player
-                        -> player.getScheduler().run(plugin, (playerTask)
-                        -> QKeyall.getKeyManager().giveKey(player, crateKey, 1), null));
+                timedCommands.forEach(command ->
+                        plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command));
                 return;
             }
             timerTime--;
-        }, 0L, 1L, TimeUnit.SECONDS);
+        }, 0L, 20L);
     }
 
     public static void stop() {

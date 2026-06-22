@@ -14,7 +14,6 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.12.2")
-    compileOnly("su.nightexpress.excellentcrates:ExcellentCrates:6.6.1")
     implementation("io.github.revxrsal:lamp.common:4.0.0-rc.17")
     implementation("io.github.revxrsal:lamp.bukkit:4.0.0-rc.17")
     compileOnly("org.projectlombok:lombok:1.18.46")
@@ -27,14 +26,14 @@ java {
     }
 }
 
+tasks.withType<JavaCompile> {
 
-
-
-
-tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
-    archiveClassifier.set("")
-    relocate("studio.mevera", "your.package.libs.mevera")
+    options.compilerArgs.add("-parameters")
 }
+
+
+
+
 
 tasks.named("assemble") {
     dependsOn(tasks.named("shadowJar"))

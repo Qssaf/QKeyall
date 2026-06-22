@@ -1,8 +1,9 @@
 package dev.parrotstudios.qkeyall.command;
 
 
-import dev.parrotstudios.qkeyall.KeyallPreset;
+
 import dev.parrotstudios.qkeyall.config.MainConfig;
+import dev.parrotstudios.qkeyall.preset.KeyallPreset;
 import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.autocomplete.SuggestionProvider;
 import revxrsal.commands.bukkit.actor.BukkitCommandActor;

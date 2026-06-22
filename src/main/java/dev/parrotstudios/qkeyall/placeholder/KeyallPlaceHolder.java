@@ -26,6 +26,9 @@ public class KeyallPlaceHolder extends PlaceholderExpansion {
     @Override
     public String onRequest(OfflinePlayer player, @NotNull String params) {
         if (params.equalsIgnoreCase("time")) {
+            if(KeyallTimer.getTimerStatus() == KeyallTimer.TimerStatus.OFFLINE) {
+                return "Not Running";
+            }
             return String.format("%02d:%02d", KeyallTimer.getTimerTime() / 60, KeyallTimer.getTimerTime() % 60);
         }
         return null;
