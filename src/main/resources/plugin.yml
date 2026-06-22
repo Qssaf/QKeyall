@@ -9,7 +9,9 @@ softdepend:
   - PlaceholderAPI
 author: Qssaf
 folia-supported: true
-
+libraries:
+  - io.github.revxrsal:lamp.bukkit:4.0.0-rc.17
+  - io.github.revxrsal:lamp.common:4.0.0-rc.17
 commands:
     qkeyall:
         description: Main command for QKeyall plugin.
